@@ -1,0 +1,83 @@
+= Jenkins Slave setup for OpenBSD / NetBSD / FreeBSD VMs on macOS VirtualBox
+
+We wish to run OpenBSD / NetBSD / FreeBSD VMs on macOS hosts as Jenkins slaves. For flexibility, this should be done via a Vagrant setup.
+
+This task is to develop the 3 Vagrant setups for these 3 flavors of *BSD according to the following requirements.
+
+WARNING: This is open-sourced code.
+
+
+== Setting Up *BSD Jenkins Slave VMs
+
+The *BSD Jenkins slave VMs should be setup accordingly as follows.
+
+
+=== Use Vagrant base boxes
+
+These are the *BSD Vagrant base boxes we could use to build the Jenkins Slave boxes on top.
+
+[source,ruby]
+----
+Vagrant.configure("2") do |config|
+  config.vm.box = "netbsd/NetBSD-7.0"
+  config.vm.box_version = "1.0.0"
+end
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "freebsd/FreeBSD-11.0-STABLE"
+end
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "SierraX/openbsd-6.1"
+end
+----
+
+
+=== Setup the "jenkins" user
+
+[source,sh]
+----
+# create user jenkins
+export JENKINS_HOME=/home/jenkins
+useradd -c "Jenkins user" -d $JENKINS_HOME -m jenkins
+----
+
+Packages:
+* openssh, gcc, gcc-c++, make, git, bzip2, zip, wget, python-pip, openssl, jq, autoconf
+* headers for zlib, bzip2, openssl
+* java-1.8.0-openjdk
+* aws-cli
+
+Build arguments:
+* `JENKINS_SLAVE_VERSION`
+
+
+=== Install Jenkins agent
+
+This is an example of installing the Jenkins Slave agent:
+
+[source,sh]
+----
+export JENKINS_SLAVE_URL=http://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${JENKINS_SLAVE_VERSION}/remoting-${JENKINS_SLAVE_VERSION}.jar
+export JENKINS_SHA_URL=${JENKINS_SLAVE_URL}.sha1
+export JENKINS_SLAVE_PATH=/usr/share/jenkins/slave.jar
+
+export JENKINS_SLAVE_SHA=$(curl ${JENKINS_SHA_URL}); \
+curl --create-dirs -sSLo ${JENKINS_SLAVE_PATH} ${JENKINS_SLAVE_URL} \
+&& echo "$JENKINS_SLAVE_SHA  ${JENKINS_SLAVE_PATH}" \
+&& echo "$JENKINS_SLAVE_SHA  ${JENKINS_SLAVE_PATH}" | sha1sum -c - \
+&& chmod 755 `dirname ${JENKINS_SLAVE_PATH}` \
+&& chmod 644 ${JENKINS_SLAVE_PATH}
+
+cp jenkins-slave /usr/bin/jenkins-slave
+----
+
+
+== Running *BSD Jenkins Slave VMs
+
+The Jenkins slave process on these VMs need to authenticate to a Jenkins master. Therfore, the Vagrant-launched VMs should inject the following arguments for the Jenkins slaves:
+* `JENKINS_SLAVE_NAME` (name of the jenkins slave)
+* `JENKINS_SLAVE_SECRET` (secret to authenticate with `JENKINS_URL`)
+* `JENKINS_URL` (the URL to reach the jenkins master)
+* `JENKINS_TUNNEL` (proxy / tunnel to reach jenkins master)
+* `JENKINS_JNLP_PROTOCOL_OPS` (options for jenkins slave java process for JNLP)
