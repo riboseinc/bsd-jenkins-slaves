@@ -43,12 +43,14 @@ useradd -c "Jenkins user" -d $JENKINS_HOME -m jenkins
 ----
 
 Packages:
+
 * openssh, gcc, gcc-c++, make, git, bzip2, zip, wget, python-pip, openssl, jq, autoconf
 * headers for zlib, bzip2, openssl
 * java-1.8.0-openjdk
 * aws-cli
 
 Build arguments:
+
 * `JENKINS_SLAVE_VERSION`
 
 
@@ -76,6 +78,7 @@ cp jenkins-slave /usr/bin/jenkins-slave
 == Running *BSD Jenkins Slave VMs
 
 The Jenkins slave process on these VMs need to authenticate to a Jenkins master. Therfore, the Vagrant-launched VMs should inject the following arguments for the Jenkins slaves:
+
 * `JENKINS_SLAVE_NAME` (name of the jenkins slave)
 * `JENKINS_SLAVE_SECRET` (secret to authenticate with `JENKINS_URL`)
 * `JENKINS_URL` (the URL to reach the jenkins master)
