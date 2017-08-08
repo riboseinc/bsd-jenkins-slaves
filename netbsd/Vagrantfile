@@ -6,4 +6,8 @@ Vagrant.configure("2") do |config|
    ( uptime 2> /dev/null || /bin/true )
   SHELL
 
+  config.vm.provision "shell", inline: <<-SHELL
+  echo "export PKG_PATH="ftp://ftp.NetBSD.org/pub/pkgsrc/packages/NetBSD/x86_64/7.0/All"" >> ~/.profile
+  SHELL
+
 end

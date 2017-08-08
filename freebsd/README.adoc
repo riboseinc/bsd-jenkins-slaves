@@ -5,3 +5,29 @@ Run as root using:
 ----
 sudo -s
 ----
+
+== Installing packages
+
+[source,sh]
+----
+pkg install -y openjdk8
+pkg install -y autoconf curl
+
+pkg install -y autoconf automake libtool pkgconf
+pkg install -y boost-libs openssl libevent
+pkg install -y gmake
+pkg install -y git
+----
+
+== Running retrace
+
+[source,sh]
+----
+git clone https://github.com/riboseinc/retrace
+cd retrace
+sh autogen.sh
+./configure --enable-tests
+make
+make check
+sudo make install
+----

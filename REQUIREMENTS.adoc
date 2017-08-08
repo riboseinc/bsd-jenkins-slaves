@@ -32,10 +32,23 @@ useradd -c "Jenkins user" -d $JENKINS_HOME -m jenkins
 
 Packages:
 
-* openssh, gcc, gcc-c++, make, git, bzip2, zip, wget, python-pip, openssl, jq, autoconf
+* gcc, gcc-c++, make, git, bzip2, zip, wget, python-pip, openssl, jq, autoconf
 * headers for zlib, bzip2, openssl
 * java-1.8.0-openjdk
 * aws-cli
+
+
+[source,sh]
+----
+pkg install -y openjdk8
+pkg install -y autoconf curl
+
+pkg install -y autoconf automake libtool pkgconf
+pkg install -y boost-libs openssl libevent
+pkg install -y make
+----
+
+
 
 Build arguments:
 
@@ -58,8 +71,6 @@ curl --create-dirs -sSLo ${JENKINS_SLAVE_PATH} ${JENKINS_SLAVE_URL} \
 && echo "$JENKINS_SLAVE_SHA  ${JENKINS_SLAVE_PATH}" | sha1sum -c - \
 && chmod 755 `dirname ${JENKINS_SLAVE_PATH}` \
 && chmod 644 ${JENKINS_SLAVE_PATH}
-
-cp jenkins-slave /usr/bin/jenkins-slave
 ----
 
 

@@ -3,5 +3,32 @@
 Run as root using:
 [source,sh]
 ----
-doas su -;
+doas su -
+----
+
+== Installing packages
+
+[source,sh]
+----
+pkg_add gmake libtool libevent
+pkg_add autoconf-2.69p2
+pkg_add automake-1.15p0
+pkg_add python-3.5.2p2
+pkg_add llvm boost
+pkg_add git
+----
+
+== Running retrace
+
+[source,sh]
+----
+git clone https://github.com/riboseinc/retrace
+cd retrace
+export AUTOCONF_VERSION=2.69
+export AUTOMAKE_VERSION=1.15
+sh autogen.sh
+./configure --enable-tests
+make
+make check
+sudo make install
 ----
