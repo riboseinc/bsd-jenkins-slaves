@@ -1,0 +1,3 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "freebsd/FreeBSD-11.0-STABLE"
+end

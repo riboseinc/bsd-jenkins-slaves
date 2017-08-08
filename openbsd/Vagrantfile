@@ -1,0 +1,3 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "SierraX/openbsd-6.1"
+end
