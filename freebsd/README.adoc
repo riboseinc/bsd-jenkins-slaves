@@ -1,3 +1,7 @@
 = Jenkins Slave on FreeBSD
 
-TODO: this is still crashing.
+Run as root using:
+[source,sh]
+----
+sudo -s
+----
