@@ -14,23 +14,11 @@ The *BSD Jenkins slave VMs should be setup accordingly as follows.
 
 === Use Vagrant base boxes
 
-These are the *BSD Vagrant base boxes we could use to build the Jenkins Slave boxes on top.
+The *BSD Vagrant setups are provided under these directories:
 
-[source,ruby]
-----
-Vagrant.configure("2") do |config|
-  config.vm.box = "netbsd/NetBSD-7.0"
-  config.vm.box_version = "1.0.0"
-end
-
-Vagrant.configure("2") do |config|
-  config.vm.box = "freebsd/FreeBSD-11.0-STABLE"
-end
-
-Vagrant.configure("2") do |config|
-  config.vm.box = "SierraX/openbsd-6.1"
-end
-----
+* `openbsd`
+* `freebsd`
+* `netbsd`
 
 
 === Setup the "jenkins" user
@@ -75,6 +63,9 @@ cp jenkins-slave /usr/bin/jenkins-slave
 ----
 
 
+Install the `jenkins-slave` agent start script to `/usr/local/bin`.
+
+
 == Running *BSD Jenkins Slave VMs
 
 The Jenkins slave process on these VMs need to authenticate to a Jenkins master. Therfore, the Vagrant-launched VMs should inject the following arguments for the Jenkins slaves:
@@ -84,3 +75,5 @@ The Jenkins slave process on these VMs need to authenticate to a Jenkins master.
 * `JENKINS_URL` (the URL to reach the jenkins master)
 * `JENKINS_TUNNEL` (proxy / tunnel to reach jenkins master)
 * `JENKINS_JNLP_PROTOCOL_OPS` (options for jenkins slave java process for JNLP)
+
+The image should run `jenkins-slave` at startup.
