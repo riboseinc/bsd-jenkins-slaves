@@ -37,19 +37,6 @@ Packages:
 * java-1.8.0-openjdk
 * aws-cli
 
-
-[source,sh]
-----
-pkg install -y openjdk8
-pkg install -y autoconf curl
-
-pkg install -y autoconf automake libtool pkgconf
-pkg install -y boost-libs openssl libevent
-pkg install -y make
-----
-
-
-
 Build arguments:
 
 * `JENKINS_SLAVE_VERSION`
