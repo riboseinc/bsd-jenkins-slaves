@@ -1,4 +1,9 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "netbsd/NetBSD-7.0"
   config.vm.box_version = "1.0.0"
+
+  config.vm.provision "shell", inline: <<-SHELL
+   ( uptime 2> /dev/null || /bin/true )
+  SHELL
+
 end

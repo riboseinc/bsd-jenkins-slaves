@@ -1,0 +1,12 @@
+= Jenkins Slave on NetBSD
+
+Default user:
+
+* username `vagrant`
+* password: `vagrant`
+
+Run as root using:
+[source,sh]
+----
+sudo -s;
+----

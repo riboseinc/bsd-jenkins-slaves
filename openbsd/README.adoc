@@ -1,0 +1,7 @@
+= Jenkins Slave on OpenBSD
+
+Run as root using:
+[source,sh]
+----
+doas su -;
+----
