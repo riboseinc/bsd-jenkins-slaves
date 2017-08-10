@@ -64,6 +64,14 @@ curl --create-dirs -sSLo ${JENKINS_SLAVE_PATH} ${JENKINS_SLAVE_URL} \
 Install the `jenkins-slave` agent start script to `/usr/local/bin`.
 
 
+=== Run Jenkins Agent On Boot
+
+The `jenkins-slave` script (`/scripts/jenkins-slave`) is used to start the Jenkins Java Agent, and
+this script should be run (and start again if killed) on boot.
+
+These BSD flavors use `rc.d` for startup, so this script should be run within the `rc` system.
+
+
 == Running *BSD Jenkins Slave VMs
 
 The Jenkins slave process on these VMs need to authenticate to a Jenkins master. Therfore, the Vagrant-launched VMs should inject the following arguments for the Jenkins slaves:
@@ -75,3 +83,10 @@ The Jenkins slave process on these VMs need to authenticate to a Jenkins master.
 * `JENKINS_JNLP_PROTOCOL_OPS` (options for jenkins slave java process for JNLP)
 
 The image should run `jenkins-slave` at startup.
+
+
+== Auto-Starting BSD Jenkins Slaves VMs On macOS
+
+These BSD VMs should be started on the macOS machine on startup on user login, and should
+restart when it has been killed. This should be done through `LaunchAgent`.
+
