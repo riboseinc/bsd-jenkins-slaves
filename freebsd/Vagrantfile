@@ -64,6 +64,6 @@ EOF
   config.vm.provision "shell",
     inline: <<EOF
     /usr/local/etc/rc.d/jenkins start
-  EOF
+EOF
 
 end
