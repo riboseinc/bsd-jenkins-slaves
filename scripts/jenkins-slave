@@ -37,18 +37,17 @@ else
 	# if -tunnel is not provided try env vars
 	if [[ "$@" != *"-tunnel "* ]]; then
 		if [ ! -z "$JENKINS_TUNNEL" ]; then
-			TUNNEL="-tunnel $JENKINS_TUNNEL"
+			TUNNEL="-connectTo $JENKINS_TUNNEL"
 		fi
 	fi
 
 	if [ ! -z "$JENKINS_URL" ]; then
-		URL="-url $JENKINS_URL"
+		URL="-jnlpUrl $JENKINS_URL"
 	fi
 
-	if [ -z "$JNLP_PROTOCOL_OPTS" ]; then
-		echo "Warning: JnlpProtocol3 is disabled by default, use JNLP_PROTOCOL_OPTS to alter the behavior"
-		JNLP_PROTOCOL_OPTS="-Dorg.jenkinsci.remoting.engine.JnlpProtocol3.disabled=true"
+	if [ ! -z "$JENKINS_SECRET" ]; then
+		SECRET="-secret $JENKINS_SECRET"
 	fi
 
-	exec java $JAVA_OPTS $JNLP_PROTOCOL_OPTS -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless $TUNNEL $URL "$@"
+	exec java $JAVA_OPTS -jar /usr/share/jenkins/slave.jar $TUNNEL $URL $SECRET
 fi

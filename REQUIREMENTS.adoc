@@ -76,9 +76,8 @@ These BSD flavors use `rc.d` for startup, so this script should be run within th
 
 The Jenkins slave process on these VMs need to authenticate to a Jenkins master. Therfore, the Vagrant-launched VMs should inject the following arguments for the Jenkins slaves:
 
-* `JENKINS_SLAVE_NAME` (name of the jenkins slave)
-* `JENKINS_SLAVE_SECRET` (secret to authenticate with `JENKINS_URL`)
-* `JENKINS_URL` (the URL to reach the jenkins master)
+* `JENKINS_URL` (the URL to reach the jenkins master, contains slave name)
+* `JENKINS_SECRET` (secret to authenticate with `JENKINS_URL`)
 * `JENKINS_TUNNEL` (proxy / tunnel to reach jenkins master)
 * `JENKINS_JNLP_PROTOCOL_OPS` (options for jenkins slave java process for JNLP)
 
