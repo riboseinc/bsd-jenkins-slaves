@@ -1,5 +1,7 @@
 #!/bin/sh -x
 
+# TODO: This script supports only FreeBSD now, should also support OpenBSD
+
 # TODO: This script should do proper error checking
 
 ## TODO: check if these variables are set
