@@ -2,8 +2,11 @@
 # vi: set ft=ruby :
 
 if ENV["JENKINS_URL"] || ENV["JENKINS_SECRET"]
+  begin
   require "yaml"
-  YAML.load(File.read("../credentials.yml")).each_pair { |k,v| ENV[k] = v unless ENV[k] }
+  YAML.load(File.read("credentials.yml")).each_pair { |k,v| ENV[k] = v unless ENV[k] }
+  rescue
+  end
 end
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
