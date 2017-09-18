@@ -1,16 +1,14 @@
 #!/bin/sh
 
-. /etc/rc.subr
+daemon="/usr/local/scripts/safe_jenkins"
 
-name=jenkins
-start_cmd="jenkins_start"
+daemon_user="jenkins"
+rc_bg=YES
 
-: ${jenkins_enable="YES"}
-
-jenkins_start()
-{
-   su jenkins -c /usr/local/scripts/safe_jenkins &
+rc_start() {
+        ${daemon}
 }
 
-load_rc_config jenkins
-run_rc_command "$1"
+. /etc/rc.d/rc.subr
+
+rc_cmd $1
