@@ -46,6 +46,7 @@ Vagrant.configure("2") do |config|
     chown -R root /usr/local/scripts
     mv /home/vagrant/rc.d.jenkins.sh /usr/local/etc/rc.d/jenkins
     chown root /usr/local/etc/rc.d/jenkins
+    echo "jenkins ALL=(ALL) NOPASSWD: ALL\n" >> /usr/local/etc/sudoers
 EOF
 
   jenkins_version = "3.9"
