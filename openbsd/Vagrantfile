@@ -36,15 +36,20 @@ Vagrant.configure("2") do |config|
     destination: "~/scripts"
 
   config.vm.provision "file",
+    source: "install-jenkins.sh",
+    destination: "~/install-jenkins.sh"
+
+  config.vm.provision "file",
     source: "rc.d.jenkins.sh",
     destination: "~/rc.d.jenkins.sh"
 
   config.vm.provision "shell",
     inline: <<EOF
     mv /home/vagrant/scripts /usr/local
-    chown -R root /usr/local/scripts
+    mv /home/vagrant/install-jenkins.sh /usr/local/scripts
     mv /home/vagrant/rc.d.jenkins.sh /etc/rc.d/jenkins
-    chown root /etc/rc.d/jenkins
+    chown -R root /usr/local/scripts /etc/rc.d/jenkins
+    rcctl enable jenkins
 EOF
 
   jenkins_version = "3.9"
@@ -52,7 +57,7 @@ EOF
 
   require 'open-uri'
   config.vm.provision "shell",
-    path: "../scripts/install-jenkins.sh",
+    path: "install-jenkins.sh",
     env: {
       "JENKINS_HOME" => "/home/jenkins",
       "JENKINS_SLAVE_VERSION" => jenkins_version,
@@ -67,7 +72,7 @@ EOF
 
   config.vm.provision "shell",
     inline: <<EOF
-    /usr/local/etc/rc.d/jenkins start
+    rcctl start jenkins
 EOF
 
 end
