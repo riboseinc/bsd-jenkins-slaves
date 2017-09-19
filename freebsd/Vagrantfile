@@ -1,6 +1,14 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+if ENV["JENKINS_URL"] || ENV["JENKINS_SECRET"]
+  begin
+  require "yaml"
+  YAML.load(File.read("credentials.yml")).each_pair { |k,v| ENV[k] = v unless ENV[k] }
+  rescue
+  end
+end
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -45,6 +53,7 @@ Vagrant.configure("2") do |config|
     mv /home/vagrant/install-jenkins.sh /usr/local/scripts
     mv /home/vagrant/rc.d.jenkins.sh /usr/local/etc/rc.d/jenkins
     chown -R root /usr/local/scripts /usr/local/etc/rc.d/jenkins
+    echo "jenkins ALL=(ALL) NOPASSWD: ALL\n" >> /usr/local/etc/sudoers
 EOF
 
   jenkins_version = "3.9"
@@ -68,6 +77,6 @@ EOF
   config.vm.provision "shell",
     inline: <<EOF
     /usr/local/etc/rc.d/jenkins start
-  EOF
+EOF
 
 end

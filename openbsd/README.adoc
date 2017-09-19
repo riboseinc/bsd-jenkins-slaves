@@ -1,6 +1,17 @@
 = Jenkins Slave on OpenBSD
 
-Run as root using:
+== Setup Credentials
+
+Add a file in this directory called `credentials.yaml`.
+
+[source,yaml]
+---
+JENKINS_URL: https://my-jenkins-server.com/computer/mynode/slave-agent.jnlp
+JENKINS_SECRET: df942cb61742e90639c872f4ade9e26521b3b04dce1cde7ad791a5cd5c9545fe
+---
+
+== Run As Root
+
 [source,sh]
 ----
 doas su -
