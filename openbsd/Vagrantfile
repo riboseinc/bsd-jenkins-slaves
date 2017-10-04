@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-if ENV["JENKINS_URL"] || ENV["JENKINS_SECRET"]
+unless ENV["JENKINS_URL"] && ENV["JENKINS_SECRET"]
   begin
   require "yaml"
   YAML.load(File.read("credentials.yml")).each_pair { |k,v| ENV[k] = v unless ENV[k] }
@@ -14,8 +14,8 @@ end
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
-  # config.vm.box = "SierraX/openbsd-6.1"
-  # config.vm.box_version = "1.3.0"
+
+  config.vm.box_version = "1.3.0"
   config.vm.box = "trombik/ansible-openbsd-6.1-amd64"
 
   # config.vm.base_mac = "08C027D24C08"
@@ -45,6 +45,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell",
     inline: <<EOF
+    echo "https://fastly.cdn.openbsd.org/pub/OpenBSD" > /etc/installurl
     mv /home/vagrant/scripts /usr/local
     mv /home/vagrant/install-jenkins.sh /usr/local/scripts
     mv /home/vagrant/rc.d.jenkins.sh /etc/rc.d/jenkins

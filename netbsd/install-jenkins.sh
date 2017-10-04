@@ -33,14 +33,13 @@ EOF
 
 adduser -unencrypted -batch jenkins users 'Jenkins Slave' vagrantslave
 
-<<<<<<< HEAD
-=======
-pkg_add -Uu
->>>>>>> afd2bb97ef1c65e982ef0c21a3d71422ae4547ad
-pkg_add jre bash
-ln -s /usr/local/jre-1.8.0/bin/java /usr/bin
-ln -s /usr/local/bin/bash /bin
-pkg_add gmake libtool libevent autoconf-2.69p2 automake-1.15p0 python-3.5.2p2 llvm boost git
+
+# This work for NetBSD
+pkg_add bash bash-completion openjdk8
+pkg_add gmake libtool libevent llvm boost git autoconf automake python27
+ln -s /usr/pkg/java/openjdk8/bin/java /usr/bin/java
+# ln -s /usr/pkg/bin/bash /bin/bash
+
 
 curl --create-dirs -sSLo ${JENKINS_SLAVE_PATH} ${JENKINS_SLAVE_URL} \
 && chmod 755 `dirname ${JENKINS_SLAVE_PATH}` && chmod 644 ${JENKINS_SLAVE_PATH}

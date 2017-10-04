@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-if ENV["JENKINS_URL"] || ENV["JENKINS_SECRET"]
+unless ENV["JENKINS_URL"] && ENV["JENKINS_SECRET"]
   begin
   require "yaml"
   YAML.load(File.read("credentials.yml")).each_pair { |k,v| ENV[k] = v unless ENV[k] }
@@ -76,7 +76,7 @@ EOF
 
   config.vm.provision "shell",
     inline: <<EOF
-    /usr/local/etc/rc.d/jenkins start
+    /etc/rc.d/jenkins start
 EOF
 
 end
