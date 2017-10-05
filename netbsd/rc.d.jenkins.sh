@@ -1,14 +1,19 @@
 #!/bin/sh
+#
+# PROVIDE: jenkins
+# REQUIRE: network
 
-daemon="/usr/local/scripts/safe_jenkins"
+$_rc_subr_loaded . /etc/rc.subr
 
-daemon_user="jenkins"
-rc_bg=YES
+name=jenkins
+start_cmd="jenkins_start"
 
-rc_start() {
-        ${daemon}
+: ${jenkins_enable="YES"}
+
+jenkins_start()
+{
+   su jenkins -c /usr/local/scripts/safe_jenkins &
 }
 
-. /etc/rc.d/rc.subr
-
-rc_cmd $1
+load_rc_config $name
+run_rc_command "$1"

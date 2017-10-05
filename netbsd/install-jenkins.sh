@@ -10,29 +10,8 @@
 # export JENKINS_SHA_URL=${JENKINS_SLAVE_URL}.sha1
 # export JENKINS_SLAVE_PATH=/usr/share/jenkins/slave.jar
 
-# Create jenkins user
-cat > /etc/adduser.conf << EOF
-verbose = 1
-defaultpasswd = "no"
-encryptionmethod = "auto"
-dotdir = "/etc/skel"
-send_message = "no"
-message_file = "/etc/adduser.message"
-config = "/etc/adduser.conf"
-logfile = "/var/log/adduser"
-home = "/home"
-path = ('/bin', '/usr/bin', '/usr/local/bin')
-shellpref = (''sh', 'ksh', 'nologin')
-defaultshell = "sh"
-defaultgroup = "USER"
-uid_start = 1000
-uid_end = 2147483647
-defaultclass = "default"
-login_classes = ('default', 'daemon', 'staff', 'authpf', 'pbuild', 'bgpd', 'unbound')
-EOF
-
-adduser -unencrypted -batch jenkins users 'Jenkins Slave' vagrantslave
-
+# Source root's .profile to get PKG_PATH set
+. /root/.profile
 
 # This work for NetBSD
 pkg_add bash bash-completion openjdk8
@@ -40,11 +19,14 @@ pkg_add gmake libtool libevent llvm boost git autoconf automake python27
 ln -s /usr/pkg/java/openjdk8/bin/java /usr/bin/java
 # ln -s /usr/pkg/bin/bash /bin/bash
 
+# Create jenkins user
+# password is vagrantslave , already encrypted
+useradd -m -p '$sha1$20039$aVpiBSpR$HhZAd60PRq4EjB.e06j/xnnUmAQz' -s /usr/pkg/bin/bash -g 100 -u 100 jenkins
 
 curl --create-dirs -sSLo ${JENKINS_SLAVE_PATH} ${JENKINS_SLAVE_URL} \
 && chmod 755 `dirname ${JENKINS_SLAVE_PATH}` && chmod 644 ${JENKINS_SLAVE_PATH}
 
-echo "$JENKINS_SLAVE_SHA  ${JENKINS_SLAVE_PATH}" | sha1 -c -
+echo "$JENKINS_SLAVE_SHA  ${JENKINS_SLAVE_PATH}" | sha1 -c
 if [ $? -ne 0 ]; then exit 1 ; fi
 
 # Create jenkins start script

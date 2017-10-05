@@ -37,10 +37,11 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell",
     inline: <<EOF
+    mkdir /usr/local
     mv /home/vagrant/scripts /usr/local
     mv /home/vagrant/install-jenkins.sh /usr/local/scripts
     mv /home/vagrant/rc.d.jenkins.sh /etc/rc.d/jenkins
-    chown -R root /usr/local/scripts /etc/rc.d/jenkins
+    /sbin/chown -R root /usr/local/scripts /etc/rc.d/jenkins
     export PKG_PATH=https://cdn.netbsd.org/pub/pkgsrc/packages/NetBSD/$(uname -m)/$(uname -r)/All/
     echo "export PKG_PATH=${PKG_PATH}" >> ~/.profile
 EOF
@@ -65,8 +66,8 @@ EOF
 
   config.vm.provision "shell",
     inline: <<EOF
-    rcctl enable jenkins
-    rcctl start jenkins
+    echo "jenkins=YES" >> /etc/rc.conf
+    /etc/rc.d/jenkins start
 EOF
 
 end
