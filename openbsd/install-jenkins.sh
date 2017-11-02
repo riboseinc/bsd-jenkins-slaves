@@ -33,10 +33,7 @@ EOF
 
 adduser -unencrypted -batch jenkins users 'Jenkins Slave' vagrantslave
 
-<<<<<<< HEAD
-=======
 pkg_add -Uu
->>>>>>> afd2bb97ef1c65e982ef0c21a3d71422ae4547ad
 pkg_add jre bash
 ln -s /usr/local/jre-1.8.0/bin/java /usr/bin
 ln -s /usr/local/bin/bash /bin

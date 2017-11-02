@@ -13,11 +13,21 @@
 # Source root's .profile to get PKG_PATH set
 . /root/.profile
 
-# This work for NetBSD
-pkg_add bash bash-completion openjdk8
-pkg_add gmake libtool libevent llvm boost git autoconf automake python27
+# Update system
+pkgin update
+pkgin -y full-upgrade
+
+pkgin -y install mozilla-rootcerts
+mozilla-rootcerts install
+
+# Install Jenkins slave and packages
+pkgin -y install bash bash-completion openjdk8 gcc git
+pkgin -y install py36-pip-9.0.1 gmake libtool libevent llvm boost autoconf automake jq
+pkgin -y install json-c cmocka
+pip3.6 install --trusted-host pypi.python.org awscli
 ln -s /usr/pkg/java/openjdk8/bin/java /usr/bin/java
-# ln -s /usr/pkg/bin/bash /bin/bash
+ln -s /usr/pkg/bin/bash /bin/bash
+ln -s /usr/pkg/bin/python3.6 /usr/bin/python
 
 # Create jenkins user
 # password is vagrantslave , already encrypted
